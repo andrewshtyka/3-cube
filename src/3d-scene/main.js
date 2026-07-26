@@ -130,9 +130,9 @@ scene.add(masterGroup);
 /**
  * ======================================== renderer
  */
-const canvas = document.querySelector('canvas.webgl');
+const canvas = document.querySelector("canvas.webgl");
 
-const renderer = new THREE.WebGLRenderer({ canvas: canvas });
+const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
 renderer.setSize(canvasConfig.width, canvasConfig.height);
 renderer.render(scene, camera);
 
@@ -168,8 +168,6 @@ const animate = () => {
 }
 
 animate();
-
-// console.log(meshesArr[0].front);
 
 
 

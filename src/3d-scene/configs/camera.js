@@ -8,6 +8,6 @@ export const cameraConfig = {
     position: {
         x: 0,
         y: 0,
-        z: 10,
+        z: 12,
     }
 }
