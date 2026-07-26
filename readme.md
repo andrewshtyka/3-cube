@@ -2,7 +2,8 @@
 
 <!-- **Cards rotate and react on hover** -->
 
-Live website: https://3-cube-shtyka.netlify.app/
+Live website: https://3-cube-shtyka.netlify.app/ \
+Inspired by: https://corentinbernadou.com/
 
 ---
 
