@@ -34,6 +34,7 @@ body {
     row-gap: 0.5rem;
     column-gap: 1rem;
     margin-block-end: 7vmin;
+    pointer-events: none;
 }
 
 @media (width >= 768px) {
@@ -50,17 +51,32 @@ body {
     text-align: center;
 }
 
+.list:hover .button,
+.list:focus .button,
+.list:focus-visible .button,
+.list:focus-within .button {
+    color: hsl(0, 0%, 50%);
+}
+
+.list_item .button:hover,
+.list_item .button:focus,
+.list_item .button:focus-visible,
+.list_item .button:focus-within {
+    color: hsl(0, 0%, 100%);
+}
+
 .button {
     margin: 0;
     padding: 0;
     outline: 0;
     border: 0;
     background: none;
-    color: hsl(0, 0%, 60%);
+    color: hsl(0, 0%, 100%);
 
     font-size: 0.9rem;
 
     position: relative;
+    pointer-events: all;
 
     &::before {
         content: "";
@@ -82,13 +98,7 @@ body {
     .button {
         &::before {
             padding-block: 1rem;
-            padding-inline: 0.5rem;
+            padding-inline: 1rem;
         }
     }
-}
-
-.button:hover,
-.button:focus,
-.button:focus-visible {
-    color: hsl(0, 0%, 100%);
 }
