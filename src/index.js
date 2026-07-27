@@ -22,12 +22,14 @@ titlesArr.forEach(({name, title}) => {
 /**
  * ======================================== handle mouse events for list items (buttons)
  */
-function handleHover() {
+function handleHover(e) {
     buttonStatus.isHovered = true;
+    buttonStatus.name = e.target.attributes["data-name"].nodeValue;
 }
 
 function handleBlur(e) {
     buttonStatus.isHovered = false;
+    buttonStatus.name = "";
 }
 
 const buttonsArr = document.querySelectorAll("button.button");
@@ -44,7 +46,7 @@ buttonsArr.forEach(button => {
 })
 
 /**
- * ======================================== handle "Escape"
+ * ======================================== handle "Escape" key
  */
 window.addEventListener("keydown", (e) => {
     if (e.code === "Escape") {
@@ -64,7 +66,5 @@ document.body.addEventListener("click", (e) => {
             handleBlur();
             document.activeElement.blur();
         }
-        // handleBlur();
-        // document.activeElement.blur();
     }
 });

@@ -7,7 +7,7 @@ export const cameraConfig = {
     far: 100,
     position: {
         x: 0,
-        y: 0,
+        y: -0.25,
         z: 12,
     }
 }

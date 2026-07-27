@@ -78,4 +78,10 @@ const texturesArr = []; // 54 textures (9 for each of 6 sides of a cube)
 
 export const textureConfig = {
     textures: shuffle(texturesArr),
+    opacityFront: 1,
+    opacityBack: 0.3,
+    opacityHovered: 0.075,
+    gsapConfig: {
+        duration: 0.3,
+    }
 };

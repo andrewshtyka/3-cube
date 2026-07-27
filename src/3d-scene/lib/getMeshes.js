@@ -13,12 +13,12 @@ export function getMeshes(geometry) {
         const materialFront = new THREE.MeshBasicMaterial({
             map: textureConfig.textures[i],
             transparent: true,
-            opacity: 1,
+            opacity: textureConfig.opacityFront,
         })
         const materialBack = new THREE.MeshBasicMaterial({
             map: textureConfig.textures[i],
             transparent: true,
-            opacity: 0.3,
+            opacity: textureConfig.opacityBack,
         })
         
         const meshFront = new THREE.Mesh(geometry, materialFront);

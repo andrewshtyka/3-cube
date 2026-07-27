@@ -9,6 +9,7 @@ import { planeGeometryConfig } from "./configs/planeGeometry";
 import { getMeshes } from "./lib/getMeshes";
 import { positionPlanes } from "./lib/positionPlanes";
 import { cubeConfig } from "./configs/cube";
+import { textureConfig } from "./lib/handleTextures";
 
 /**
  * ======================================== handle resize
@@ -144,6 +145,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
  */
 export const buttonStatus = {
     isHovered: false,
+    name: ""
 };
 
 const initialSpeedY = 0.8;
@@ -172,7 +174,7 @@ const setScale = (value) => {
 const timer = new THREE.Timer();
 
 const animate = (timestamp) => {
-    // deltaTime and dampingFactor make sure rotation speed is the same
+    // deltaTime and dampingFactor - ro make sure that rotation speed is the same
     // in different browsers (including low-power mode)
     timer.update(timestamp);
     const deltaTime = timer.getDelta();
@@ -196,17 +198,21 @@ const animate = (timestamp) => {
     } else {
         setScale(cubeAnimationConfig.scaleMin);
     }
-
-    // meshesArr.forEach(obj => {
-    //     if (obj.front.name === 'the_weeknd') {
-    //         obj.front.material.opacity = 1;
-    //         obj.back.material.opacity = 1;
-    //     }
-    //     if (obj.front.name !== 'the_weeknd') {
-    //         obj.front.material.opacity = 0.1;
-    //         obj.back.material.opacity = 0.1;
-    //     }
-    // })
+    
+    // opacity of textures
+    // don't be scared! it's just an IIFE - calling the function immediately, with target opacity value
+    meshesArr.forEach(obj => {
+        if (buttonStatus.isHovered && obj.front.name === buttonStatus.name) {
+            (gsap.quickTo(obj.front.material, "opacity", {...textureConfig.gsapConfig}))(textureConfig.opacityFront);
+            (gsap.quickTo(obj.back.material, "opacity", {...textureConfig.gsapConfig}))(textureConfig.opacityFront);
+        } else if (buttonStatus.isHovered && obj.front.name !== buttonStatus.name) {
+            (gsap.quickTo(obj.front.material, "opacity", {...textureConfig.gsapConfig}))(textureConfig.opacityHovered);
+            (gsap.quickTo(obj.back.material, "opacity", {...textureConfig.gsapConfig}))(textureConfig.opacityHovered);
+        } else {
+            (gsap.quickTo(obj.front.material, "opacity", {...textureConfig.gsapConfig}))(textureConfig.opacityFront);
+            (gsap.quickTo(obj.back.material, "opacity", {...textureConfig.gsapConfig}))(textureConfig.opacityBack);
+        }
+    })
 
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
