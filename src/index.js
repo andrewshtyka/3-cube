@@ -54,3 +54,17 @@ window.addEventListener("keydown", (e) => {
         }
     }
 })
+
+/**
+ * ======================================== handle click on empty space (for safari mobile)
+ */
+document.body.addEventListener("click", (e) => {
+    if (!e.target.matches("button")) {
+        if (document.activeElement) {
+            handleBlur();
+            document.activeElement.blur();
+        }
+        // handleBlur();
+        // document.activeElement.blur();
+    }
+});
