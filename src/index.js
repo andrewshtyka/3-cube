@@ -1,22 +1,56 @@
+// files
 import "./3d-scene/main";
 
+// assets
+import { titlesArr } from "./3d-scene/lib/handleTextures";
+import { buttonStatus } from "./3d-scene/main";
+
+/**
+ * ======================================== create markup for a list
+ */
 const list = document.querySelector("ul.list");
-
-const titlesArr = [
-    {id: "banks", name: "Banks"},
-    {id: "charli_xcx", name: "Charli XCX"},
-    {id: "bernache", name: "Emma (Men I Trust)"},
-    {id: "sky_ferreira", name: "Sky Ferreira"},
-    {id: "the_japanese_house", name: "The Japanese House"},
-    {id: "the_weeknd", name: "The Weeknd"},
-];
-
-titlesArr.forEach(({id, name}) => {
+titlesArr.forEach(({name, title}) => {
     const item = `
     <li class="list_item">
-        <button type="button" class="button" data-name="${id}">${name}</button>
+        <button type="button" class="button" data-name="${name}">${title}</button>
     </li>
     `;
 
     list.insertAdjacentHTML('beforeend', item);
+})
+
+/**
+ * ======================================== handle mouse events for list items (buttons)
+ */
+function handleHover() {
+    buttonStatus.isHovered = true;
+}
+
+function handleBlur(e) {
+    buttonStatus.isHovered = false;
+}
+
+const buttonsArr = document.querySelectorAll("button.button");
+buttonsArr.forEach(button => {
+    button.removeEventListener("mouseover", handleHover);
+    button.removeEventListener("focus", handleHover);
+    button.removeEventListener("mouseleave", handleBlur);
+    button.removeEventListener("blur", handleBlur);
+    
+    button.addEventListener("mouseover", handleHover);
+    button.addEventListener("focus", handleHover);
+    button.addEventListener("mouseleave", handleBlur);
+    button.addEventListener("blur", handleBlur);
+})
+
+/**
+ * ======================================== handle "Escape"
+ */
+window.addEventListener("keydown", (e) => {
+    if (e.code === "Escape") {
+        if (document.activeElement) {
+            handleBlur();
+            document.activeElement.blur();
+        }
+    }
 })

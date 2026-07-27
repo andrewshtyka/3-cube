@@ -1,5 +1,6 @@
 // packages
 import * as THREE from "three";
+import gsap from "gsap";
 
 // user
 import { canvasConfig } from "./configs/canvas";
@@ -141,16 +142,60 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 /**
  * ======================================== animate
  */
+export const buttonStatus = {
+    isHovered: false,
+};
+
+const initialSpeedY = 0.8;
+const initialSpeedX = 0.2;
+const hoveredSpeed = 0.05;
+
+const cubeAnimationConfig = {
+    angleCurrentY: 0,
+    angleCurrentX: 0,
+    rotationSpeedY: initialSpeedY,
+    rotationSpeedX: initialSpeedX,
+    damping: 0.1,
+    scaleMin: 1,
+    scaleMax: 1.3,
+}
+
+const scaleX = gsap.quickTo(masterGroup.scale, "x", {duration: 0.5});
+const scaleY = gsap.quickTo(masterGroup.scale, "y", {duration: 0.5});
+const scaleZ = gsap.quickTo(masterGroup.scale, "z", {duration: 0.5});
+const setScale = (value) => {
+    scaleX(value);
+    scaleY(value);
+    scaleZ(value);
+};
+
 const timer = new THREE.Timer();
 
+const animate = (timestamp) => {
+    // deltaTime and dampingFactor make sure rotation speed is the same
+    // in different browsers (including low-power mode)
+    timer.update(timestamp);
+    const deltaTime = timer.getDelta();
+    const dampingFactor = 1 - Math.pow(1 - cubeAnimationConfig.damping, deltaTime * 60);
 
+    // rotation speed Y
+    const currentSpeedY = buttonStatus.isHovered ? hoveredSpeed : initialSpeedY;
+    cubeAnimationConfig.rotationSpeedY += (currentSpeedY - cubeAnimationConfig.rotationSpeedY) * dampingFactor;
+    cubeAnimationConfig.angleCurrentY += cubeAnimationConfig.rotationSpeedY * deltaTime;
+    masterGroup.rotation.y = cubeAnimationConfig.angleCurrentY;
 
-const animate = () => {
-    timer.update();
-    const elapsed = timer.getElapsed();
+    // rotation speed X
+    const currentSpeedX = buttonStatus.isHovered ? hoveredSpeed : initialSpeedX;
+    cubeAnimationConfig.rotationSpeedX += (currentSpeedX - cubeAnimationConfig.rotationSpeedX) * dampingFactor;
+    cubeAnimationConfig.angleCurrentX += cubeAnimationConfig.rotationSpeedX * deltaTime;
+    masterGroup.rotation.x = cubeAnimationConfig.angleCurrentX;
 
-    masterGroup.rotation.y = elapsed * 0.8;
-    masterGroup.rotation.x = elapsed * 0.2;
+    // scale
+    if (buttonStatus.isHovered) {
+        setScale(cubeAnimationConfig.scaleMax);
+    } else {
+        setScale(cubeAnimationConfig.scaleMin);
+    }
 
     // meshesArr.forEach(obj => {
     //     if (obj.front.name === 'the_weeknd') {
